@@ -19,4 +19,6 @@ class BitcoinExchange
     void parse_data();
     void add_btc(std::string data, std::string value);
     void read_in_file(char *name);
+    void print_res(std::string date, std::string value);
+    voi
 };
