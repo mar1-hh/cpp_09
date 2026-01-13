@@ -4,7 +4,7 @@ CC = c++
 
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp
+SRCS = main.cpp BitcoinExchange.cpp
 
 OBJ_SRCS = ${SRCS:.cpp=.o}
 
@@ -14,7 +14,7 @@ all: ${NAME}
 ${NAME}: ${OBJ_SRCS}
 	${CC} ${CPPFLAGS} $^ -o $@
 
-%.o: %.c
+%.o: %.c BitcoinExchange.hpp
 	${CC} ${CPPFLAGS} -c $< -o $@
 
 clean:
