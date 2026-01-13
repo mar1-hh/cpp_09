@@ -11,3 +11,9 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
 }
 
 BitcoinExchange::~BitcoinExchange() {};
+
+void BitcoinExchange::parse_data()
+{
+    
+    std::string line;
+}

@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 
+#include <iostream>
+
 #include <string>
 
 class BitcoinExchange
@@ -14,4 +16,5 @@ class BitcoinExchange
     BitcoinExchange(const BitcoinExchange& obj);
     BitcoinExchange& operator=(const BitcoinExchange& obj);
     ~BitcoinExchange();
+    void parse_data();
 };
