@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <stdlib.h>
+#include <algorithm>
 
 class BitcoinExchange
 {
@@ -20,5 +21,4 @@ class BitcoinExchange
     void add_btc(std::string data, std::string value);
     void read_in_file(char *name);
     void print_res(std::string date, std::string value);
-    voi
 };

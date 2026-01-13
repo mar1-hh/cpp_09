@@ -30,7 +30,6 @@ void BitcoinExchange::parse_data()
         size_t  flag = line.find(',');
         date = line.substr(0, flag);
         value = line.substr(flag + 1);
-        // std::cout << date << " " << value << std::endl;
         add_btc(date, value);
     }
 }
@@ -52,32 +51,22 @@ void BitcoinExchange::print_res(std::string date, std::string value)
         std::cout << "Error: not a positive number" << std::endl;
     else if (val > 1000)
         std::cout << "Error: too large a number." << std::endl;
-    
+    std::map<std::string, float>::iterator it = btc_map.lower_bound(date);
+    std::cout << date << " => " << val << " = " << it->second * val << std::endl;
 }
 
 void BitcoinExchange::read_in_file(char *name)
 {
     std::string line, date, value;
     std::ifstream in_file(name);
-    char *flag_val;
-    // std::map<std::string, float>::iterator it = btc_map.begin();
-    // std::cout << it->first << std::endl;
 
     while (getline(in_file, line))
     {
+        if (line == "date | value")
+            continue;
         size_t flag = line.find('|');
         date = line.substr(0, flag - 1);
         value = line.substr(flag + 2);
-
-        // if (*flag_val != 0)
-        //     std::cout << "is not a number" << std::endl;
-        // else if (val < 0)
-        //     std::cout << "Error: not a positive number" << std::endl;
-        // else if (val > 1000)
-        //     std::cout << "Error: too large a number." << std::endl;
-        // else
-        // {
-        //     std::cout << date << " => " << val << " = " << btc_map[date] * val << std::endl;
-        // }
+        print_res(date, value);
     }
 }
