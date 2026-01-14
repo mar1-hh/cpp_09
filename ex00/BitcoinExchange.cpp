@@ -43,7 +43,7 @@ bool is_int(std::string &str)
 {
     if (str.empty())
         return (false);
-    for (int i = 0; i < str.size(); i++)
+    for (size_t i = 0; i < str.size(); i++)
     {
         if (!isdigit(str[i]))
             return (false);
@@ -54,12 +54,28 @@ bool is_int(std::string &str)
 
 bool days_validate(int year_val, int month_val, int day_val)
 {
+    // if (year_val < 0 || month_val < 0 )
     bool    is_leap = 0;
-
     if (year_val % 400 == 0)
         is_leap = 1;
     else if ((year_val % 100 != 0) && (year_val % 4 == 0))
         is_leap = 1;
+    if (is_leap && month_val == 2)
+    {
+        if (!(day_val >= 1 && day_val <= 29))
+            return (false);
+    }
+    if (month_val % 2 != 0 || month_val == 8)
+    {
+        if (!(day_val >= 1 && day_val <= 31))
+            return (false);
+    }
+    if (month_val % 2 == 0 && month_val != 8)
+    {
+        if (!(day_val >= 1 && day_val <= 30))
+            return (false);
+    }
+    return (true);
 }
 
 
@@ -70,7 +86,6 @@ bool validate_date(std::string date)
     std::string day_part;
     size_t flag = date.find('-');
     size_t prev_flag;
-    int year_val, month_val, day_val;
     
     year_part = date.substr(0, flag);
     prev_flag = flag;
@@ -89,18 +104,20 @@ void BitcoinExchange::print_res(std::string date, std::string value)
     char *flag_val;
 
 
-    validate_date(date);
     val = strtod(value.c_str(), &flag_val);
-    // if (*flag_val != 0)
-    //     std::cout << "is not a number" << std::endl;
-    // else if (val < 0)
-    //     std::cout << "Error: not a positive number" << std::endl;
-    // else if (val > 1000)
-    //     std::cout << "Error: too large a number." << std::endl;
-    std::map<std::string, float>::iterator it = btc_map.lower_bound(date);
-    (void)it;
-    (void)val;
-    // std::cout << date << " => " << val << " = " << it->second * val << std::endl;
+    if (!validate_date(date))
+        std::cout << "Error: bad input => " << date << std::endl;
+    else if (*flag_val != 0)
+        std::cout << "Error: bad input => " << value << std::endl;
+    else if (val < 0)
+        std::cout << "Error: not a positive number." << std::endl;
+    else if (val > 1000)
+        std::cout << "Error: too large a number." << std::endl;
+    else
+    {
+        std::map<std::string, float>::iterator it = btc_map.lower_bound(date);
+        std::cout << date << " => " << val << " = " << it->second * val << std::endl;
+    }
 }
 
 void BitcoinExchange::read_in_file(char *name)
