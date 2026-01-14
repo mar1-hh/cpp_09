@@ -54,7 +54,8 @@ bool is_int(std::string &str)
 
 bool days_validate(int year_val, int month_val, int day_val)
 {
-    // if (year_val < 0 || month_val < 0 )
+    if (year_val < 1800 || year_val > 2026)
+        return (false);
     bool    is_leap = 0;
     if (year_val % 400 == 0)
         is_leap = 1;
