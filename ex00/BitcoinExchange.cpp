@@ -39,20 +39,68 @@ void BitcoinExchange::add_btc(std::string date, std::string value)
     btc_map[date] = strtod(value.c_str(), NULL);
 }
 
+bool is_int(std::string &str)
+{
+    if (str.empty())
+        return (false);
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (!isdigit(str[i]))
+            return (false);
+    }
+    return (true);
+}
+
+
+bool days_validate(int year_val, int month_val, int day_val)
+{
+    bool    is_leap = 0;
+
+    if (year_val % 400 == 0)
+        is_leap = 1;
+    else if ((year_val % 100 != 0) && (year_val % 4 == 0))
+        is_leap = 1;
+}
+
+
+bool validate_date(std::string date)
+{
+    std::string year_part;
+    std::string month_part;
+    std::string day_part;
+    size_t flag = date.find('-');
+    size_t prev_flag;
+    int year_val, month_val, day_val;
+    
+    year_part = date.substr(0, flag);
+    prev_flag = flag;
+    flag = date.find('-', flag + 1);
+    month_part = date.substr(prev_flag + 1, flag - prev_flag - 1);
+    day_part = date.substr(flag + 1);
+    if (!is_int(year_part) || !is_int(month_part) || !is_int(day_part))
+        return (false);
+    return (days_validate(atoi(year_part.c_str()), atoi(month_part.c_str()), atoi(day_part.c_str())));
+    return (true);
+}
+
 void BitcoinExchange::print_res(std::string date, std::string value)
 {
     double val;
     char *flag_val;
 
+
+    validate_date(date);
     val = strtod(value.c_str(), &flag_val);
-    if (*flag_val != 0)
-        std::cout << "is not a number" << std::endl;
-    else if (val < 0)
-        std::cout << "Error: not a positive number" << std::endl;
-    else if (val > 1000)
-        std::cout << "Error: too large a number." << std::endl;
+    // if (*flag_val != 0)
+    //     std::cout << "is not a number" << std::endl;
+    // else if (val < 0)
+    //     std::cout << "Error: not a positive number" << std::endl;
+    // else if (val > 1000)
+    //     std::cout << "Error: too large a number." << std::endl;
     std::map<std::string, float>::iterator it = btc_map.lower_bound(date);
-    std::cout << date << " => " << val << " = " << it->second * val << std::endl;
+    (void)it;
+    (void)val;
+    // std::cout << date << " => " << val << " = " << it->second * val << std::endl;
 }
 
 void BitcoinExchange::read_in_file(char *name)
