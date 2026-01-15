@@ -56,6 +56,8 @@ bool days_validate(int year_val, int month_val, int day_val)
 {
     if (year_val < 1800 || year_val > 2026)
         return (false);
+    if (month_val < 1 || month_val > 12)
+        return (false);
     bool    is_leap = 0;
     if (year_val % 400 == 0)
         is_leap = 1;
