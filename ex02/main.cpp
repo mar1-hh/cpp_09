@@ -2,17 +2,53 @@
 
 void ford_jhonson(std::vector<int> &arr);
 
+std::vector<int> jacobsthal_order(size_t size)
+{
+    std::vector<int> check_point;
+    std::vector<int> return_value;
+    
+    check_point.push_back(0);
+    check_point.push_back(1);
+    int i = 2;
+    int c_p;
+    while (1)
+    {
+        size_t top = check_point.back();
+        if (top >= size)
+            break ;
+        c_p = check_point[i - 1] + 2 * check_point[i - 2];
+        check_point.push_back(c_p);
+        i++;
+    }
+    size_t prv = 0;
+    for (size_t i = 1; i < check_point.size(); i++)
+    {
+        size_t cur = check_point[i];
+        if (cur > size)
+            cur = size;
+        for (size_t j = cur; j > prv; j--)
+            return_value.push_back(j - 1);
+        prv = cur;
+        if (prv == size)
+            break;
+    }
+    return (return_value);
+}
+
 void main_chain(std::vector<int>& main_chain, std::vector<std::pair<int, int> > min_chain)
 {
     std::vector<int>::iterator it;
-    for (size_t i = 0; i < min_chain.size(); i++)
+    std::vector<int> order = jacobsthal_order(min_chain.size());
+
+    for (size_t i = 0; i < order.size(); i++)
     {
-        if (min_chain[i].second != -1)
-            it = std::find(main_chain.begin(), main_chain.end(), min_chain[i].second);
+        int index = order[i];
+        if (min_chain[index].second != -1)
+            it = std::find(main_chain.begin(), main_chain.end(), min_chain[index].second);
         else
             it = main_chain.end();
-        std::vector<int>::iterator insert_it = std::lower_bound(main_chain.begin(), it, min_chain[i].first);
-        main_chain.insert(insert_it, min_chain[i].first);
+        std::vector<int>::iterator insert_it = std::lower_bound(main_chain.begin(), it, min_chain[index].first);
+        main_chain.insert(insert_it, min_chain[index].first);
     }
 }
 
@@ -70,11 +106,19 @@ void ford_jhonson(std::vector<int> &arr)
 int main()
 {
     std::vector<int> arr;
+
     arr.push_back(7);
-    arr.push_back(5);
-    arr.push_back(2);
+    arr.push_back(73);
     arr.push_back(1);
+    arr.push_back(7);
+    arr.push_back(7);
+    arr.push_back(6);
+    arr.push_back(7);
     arr.push_back(8);
+    arr.push_back(7);
+    arr.push_back(7);
+    arr.push_back(7);
+
     for (size_t i =0; i < arr.size(); i++)
     {
         std::cout << arr[i] << " ";
@@ -85,6 +129,5 @@ int main()
     {
         std::cout << arr[i] << " ";
     }
-    std::cout << std::endl;
     return (0);
 }
