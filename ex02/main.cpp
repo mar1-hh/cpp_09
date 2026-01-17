@@ -8,13 +8,19 @@ static long long now_us()
 }
 
 
-void parse_num(int ac, char **av, std::deque<int>& deque_arr, std::vector<int>& vector_arr)
+bool parse_num(int ac, char **av, std::deque<int>& deque_arr, std::vector<int>& vector_arr)
 {
-    for (int i = 1; i < ac - 1; i++)
+    for (int i = 1; i < ac; i++)
     {
         deque_arr.push_back(atoi(av[i]));
+        if (deque_arr[i] < 0)
+        {
+            std::cout << "Error" << std::endl;
+            return (0);
+        }
         vector_arr.push_back(atoi(av[i]));
     }
+    return (1);
 }
 
 int main(int ac, char **av)
@@ -23,7 +29,8 @@ int main(int ac, char **av)
         return (1);
     std::deque<int> deque_arr;
     std::vector<int> vector_arr;
-    parse_num(ac, av, deque_arr, vector_arr);
+    if (!parse_num(ac, av, deque_arr, vector_arr))
+        return (1);
     std::cout << "Before: ";
     for (size_t i =0; i < vector_arr.size(); i++)
         std::cout << vector_arr[i] << " ";
