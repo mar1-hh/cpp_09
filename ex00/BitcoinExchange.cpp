@@ -15,14 +15,18 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& obj)
 
 BitcoinExchange::~BitcoinExchange() {};
 
-void BitcoinExchange::parse_data()
+bool BitcoinExchange::parse_data()
 {
     std::ifstream   in_data("data.csv");
     std::string line;
     std::string date;
     std::string value;
-    
 
+    if (!in_data.is_open())
+    {
+        std::cout << "Error: can't open data.csv" << std::endl;
+        return 0;
+    }
     while (getline(in_data, line))
     {
         if (line == "date,exchange_rate")
@@ -32,6 +36,7 @@ void BitcoinExchange::parse_data()
         value = line.substr(flag + 1);
         add_btc(date, value);
     }
+    return (1);
 }
 
 void BitcoinExchange::add_btc(std::string date, std::string value)
@@ -123,11 +128,16 @@ void BitcoinExchange::print_res(std::string date, std::string value)
     }
 }
 
-void BitcoinExchange::read_in_file(char *name)
+bool BitcoinExchange::read_in_file(char *name)
 {
     std::string line, date, value;
     std::ifstream in_file(name);
 
+    if (!in_file.is_open())
+    {
+        std::cout << "Error: can't open " << name << std::endl;
+        return 0;
+    }
     while (getline(in_file, line))
     {
         if (line == "date | value")
@@ -137,4 +147,5 @@ void BitcoinExchange::read_in_file(char *name)
         value = line.substr(flag + 2);
         print_res(date, value);
     }
+    return (1);
 }

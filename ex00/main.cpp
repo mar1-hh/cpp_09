@@ -9,7 +9,9 @@ int main(int ac, char **av)
     (void)av;
     BitcoinExchange btc;
 
-    btc.parse_data();
-    btc.read_in_file(av[1]);
+    if (!btc.parse_data())
+        return (1);
+    if (!btc.read_in_file(av[1]))
+        return (1);
     return (0);
 }
