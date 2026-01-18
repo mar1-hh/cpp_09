@@ -1,24 +1,33 @@
 #include "PmergeMe.hpp"
 
-static long long now_us()
+long long now_us()
 {
     timeval tv;
     gettimeofday(&tv, 0);
     return (long long)tv.tv_sec * 1000000LL + (long long)tv.tv_usec;
 }
 
+bool is_positive_number(std::string num)
+{
+    for (size_t i = 0; i < num.size(); i++)
+    {
+        if (!isdigit(num[i]))
+            return (false);
+    }
+    return (true);
+}
 
 bool parse_num(int ac, char **av, std::deque<int>& deque_arr, std::vector<int>& vector_arr)
 {
     for (int i = 1; i < ac; i++)
     {
-        deque_arr.push_back(atoi(av[i]));
-        if (deque_arr[i] < 0)
+        if (!is_positive_number(av[i]))
         {
             std::cout << "Error" << std::endl;
             return (0);
         }
-        vector_arr.push_back(atoi(av[i]));
+        deque_arr.push_back(atoi(av[i]));
+        vector_arr.push_back(deque_arr[i - 1]);
     }
     return (1);
 }

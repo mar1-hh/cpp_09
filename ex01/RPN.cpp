@@ -28,13 +28,13 @@ bool rpn(std::string str)
         if (isdigit(str[i]) || is_operator(str[i]))
         {
             if (flag)
-                return (false);
+            return (false);
             if (isdigit(str[i]))
-                st_numbers.push(str[i] - '0');
+            st_numbers.push(str[i] - '0');
             else
             {
                 if (st_numbers.size() < 2)
-                    return (false);
+                return (false);
                 b = st_numbers.top();
                 st_numbers.pop();
                 a = st_numbers.top();
@@ -49,7 +49,9 @@ bool rpn(std::string str)
             return (false);
     }
     if (st_numbers.size() == 1)
+    {
         std::cout << st_numbers.top() << std::endl;
-    st_numbers.pop();
+        st_numbers.pop();
+    }
     return (st_numbers.empty());
 }

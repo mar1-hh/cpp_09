@@ -4,7 +4,6 @@ int main(int ac, char **av)
 {
     if (ac != 2)
         return (1);
-    // std::vector<char> vec_char;
     if (!rpn(av[1]))
     {
         std::cout << "Error" << std::endl;
