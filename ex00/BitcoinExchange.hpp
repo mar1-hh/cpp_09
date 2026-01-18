@@ -10,7 +10,7 @@
 class BitcoinExchange
 {
     private:
-    std::unordered_map<std::string, float> btc_map;
+    std::map<std::string, float> btc_map;
 
     public:
     BitcoinExchange();
